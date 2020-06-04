@@ -20,11 +20,9 @@ jobs:
         cd api/foo
         npm install
     - name: zip
-      uses: montudor/action-zip@v0.1.0
-      run: |
-        cd api/foo
+      uses: montudor/action-zip@v0.1.0        
       with:
-        args: zip -r foo-api.zip node_modules/ index.js  
+        args: cd api/foo && zip -r foo-api.zip node_modules/ index.js  
     - name: Check zip file
       run: |
         echo | ls -ltr
