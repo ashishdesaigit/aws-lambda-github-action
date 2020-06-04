@@ -30,3 +30,11 @@ jobs:
     - name: Check zip file
       run: |
         ls -ltr
+    - name: deploy lambda to AWS
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: eu-west-1
+        function_name: foo-function
+        zip_file: api/foo/foo-api.zip
