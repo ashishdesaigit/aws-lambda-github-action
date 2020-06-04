@@ -25,7 +25,7 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         filename: 'foo-api.zip'
-        exclusions: 'package.json package-local.json'
+        exclusions: 'package.json package-lock.json'
         directory: 'api/foo'
     - name: Check zip file
       run: |
