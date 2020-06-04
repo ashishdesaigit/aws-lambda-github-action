@@ -15,12 +15,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd api/foo
     - name: build
       run: |
-        pwd
+        cd api/foo
+        npm install
     - name: zip
       uses: montudor/action-zip@v0.1.0
+      run: |
+        cd api/foo
       with:
         args: zip -r foo-api.zip node_modules/ index.js  
     - name: Check zip file
