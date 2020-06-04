@@ -22,9 +22,11 @@ jobs:
       run: |
         npm install
     - name: zip
-      uses: montudor/action-zip@v0.1.0        
+      uses: thedoctor0/zip-release@master
       with:
-        args: zip -r foo-api.zip node_modules/ index.js
+        filename: 'foo-api.zip'
+        exclusions: 'package.json package-local.json'
+        directory: 'api/foo'
     - name: Check zip file
       run: |
-        echo | ls -ltr
+        ls -ltr
