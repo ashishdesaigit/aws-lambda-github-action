@@ -1,0 +1,40 @@
+name: Deploy Bar api Lambda
+on:
+  push:
+    paths:
+      - "api/bar/**"
+jobs:
+  deploy:
+    strategy:
+        matrix:
+          node-version: [12.x]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api/bar
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: build
+      run: |
+        npm install
+    - name: zip
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'bar-api.zip'
+        exclusions: 'package.json package-lock.json'
+        directory: 'api/bar'
+    - name: Check zip file
+      run: |
+        ls -ltr
+    - name: deploy lambda to AWS
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-west-2
+        function_name: bar-function
+        zip_file: api/bar/bar-api.zip
