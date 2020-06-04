@@ -9,6 +9,9 @@ jobs:
         matrix:
           node-version: [12.x]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api/foo
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -17,12 +20,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: build
       run: |
-        cd api/foo
         npm install
     - name: zip
       uses: montudor/action-zip@v0.1.0        
       with:
-        args: cd api/foo && zip -r foo-api.zip node_modules/ index.js  
+        args: zip -r foo-api.zip node_modules/ index.js
     - name: Check zip file
       run: |
         echo | ls -ltr
